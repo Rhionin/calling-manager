@@ -1,0 +1,8 @@
+{
+  "name": "calling-manager",
+  "private": true,
+  "description": "Private ward calling board, hosted as a Cloudflare Workers static-asset site.",
+  "devDependencies": {
+    "wrangler": "4.152.0"
+  }
+}
