@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Calling Manager</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Private ward calling board. Member data stays in this browser.">
+	<meta name="referrer" content="no-referrer">
+	<meta name="robots" content="noindex, nofollow">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'self'; media-src 'none'">
+	<link rel="stylesheet" href="vendor/fonts/fonts.css">
+	<link href="style.min.css" media="screen" rel="stylesheet">
+	<link href="print.min.css" media="print" rel="stylesheet" id="printChangesCSS">
+	<link href="print-all.min.css" media="print" rel="stylesheet" id="printAllCSS" disabled>
+	<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="vendor/fontawesome/css/v4-shims.min.css">
+	<link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="css/local.css">
+	<link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="images/favicon/manifest.json">
+	<link rel="shortcut icon" href="images/favicon/favicon.ico">
+	<meta name="theme-color" content="#353639">
+</head>
+<body>
+	<a class="skip-link" href="#container">Skip to content</a>
+	<div id="loading"><img src="images/home/spinner.gif" alt=""><br>Loading...</div>
+	<div class="background-image"></div>
+	<div class="top-section">
+		<div class="title-row">
+			<h1>Calling Manager<span id="changesAsOf">Changes as of: <span id="dateOfChanges"></span></span></h1>
+			<p id="save-status" class="save-status" aria-live="polite"></p>
+		</div>
+		<p id="unit-banner" class="unit-banner" hidden></p>
+		<div id="menu-form" class="menu">
+			<a class="demo" href="#sample">Load sample</a>
+		</div>
+		<div id="toolbar" class="toolbar" hidden>
+			<button type="button" class="tool" id="add-member"><i class="fa-solid fa-user-plus"></i> Add person</button>
+			<button type="button" class="tool" id="toggle-time" aria-pressed="false"><i class="fa-regular fa-clock"></i> Time in calling</button>
+			<div class="print-wrap">
+				<button type="button" class="tool" id="print-open"><i class="fa-solid fa-print"></i> Print</button>
+				<div id="printMenu">
+					<a href="#print-changes" id="print-changes">Print changes</a>
+					<a href="#print-all" id="print-all">Print all callings</a>
+				</div>
+			</div>
+			<button type="button" class="tool" id="toggle-touch" aria-pressed="false"><i class="fa-regular fa-hand-point-up"></i> Lock drag</button>
+			<button type="button" class="tool" id="toggle-view" aria-pressed="false"><i class="fa-solid fa-list"></i> <span id="view-label">List</span></button>
+			<button type="button" class="tool" id="open-pending"><i class="fa-solid fa-clipboard-list"></i> Pending <span id="pending-count">0</span></button>
+			<button type="button" class="tool" id="open-export"><i class="fa-solid fa-download"></i> Export</button>
+			<button type="button" class="tool" id="open-import"><i class="fa-solid fa-upload"></i> Import</button>
+			<button type="button" class="tool" id="back-to-form">New paste</button>
+			<button type="button" class="tool tool-quiet" id="clear-data">Clear</button>
+			<label class="find-label">Find
+				<input id="board-search" type="search" placeholder="Calling or person" autocomplete="off" spellcheck="false">
+			</label>
+		</div>
+	</div>
+
+	<div id="container">
+		<div id="form-page">
+			<div id="form">
+				<h2>Build a calling board on this computer</h2>
+				<div class="left">
+					<h3>1. Load the fictional sample</h3>
+					<p>The sample ward is invented. Use it to learn the board. It is not a real unit.</p>
+					<a class="button demo-button" id="load-sample" href="#sample"><i class="fa-solid fa-sign-in"></i>Load sample</a>
+				</div>
+				<div class="right">
+					<h3>2. Paste callings JSON</h3>
+					<ol>
+						<li>In Leader and Clerk Resources, open the callings data your account can see.</li>
+						<li>The old address <code>lcr.churchofjesuschrist.org/api/orgs/sub-orgs-with-callings</code> has returned 404 since March 2026. If you can still reach a JSON list of organizations, copy that text.</li>
+						<li>Paste it below. This page reads the paste locally and then clears the box.</li>
+						<li>Out-of-unit callings are still unavailable, matching the previous tool.</li>
+					</ol>
+					<p><a href="#fill-sample" id="fill-sample">Put the sample JSON in the box</a></p>
+				</div>
+				<div class="bottom">
+					<form id="callings-by-org-form" autocomplete="off">
+						<div>
+							<label for="input-callings-by-org">Callings by organization</label><br>
+							<textarea name="input-callings-by-org" id="input-callings-by-org" class="required" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+						</div>
+						<div>
+							<label for="input-out-of-unit-callings"><s>Out of unit callings</s> <span class="optional">(not available)</span></label><br>
+							<textarea name="input-out-of-unit-callings" id="input-out-of-unit-callings" autocomplete="off" disabled></textarea>
+						</div>
+						<button type="submit" class="button submit">Build the board</button>
+						<a href="#privacy" class="note"><em>Does this leave my computer?</em></a>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div id="callings-page" class="aftersubmit">
+			<ul id="sortparent" class="organization"></ul>
+			<ul id="new" class="organization">
+				<li class="h2 notSortable"><h2>Unassigned / names to consider</h2></li>
+			</ul>
+			<ul id="ward">
+				<ul id="hide" class="organization">
+					<li class="h2 notSortable"><h2>Hide</h2></li>
+				</ul>
+			</ul>
+		</div>
+
+		<div id="list-page" hidden>
+			<div class="list-card">
+				<h2>Calling list</h2>
+				<label class="find-label list-find">Filter
+					<input id="list-search" type="search" placeholder="Organization, calling, or person" autocomplete="off">
+				</label>
+				<div class="list-scroll">
+					<table id="list-table">
+						<thead>
+							<tr>
+								<th>Organization</th>
+								<th>Calling</th>
+								<th>Person</th>
+								<th>Sustained</th>
+								<th>Set apart</th>
+								<th>Status</th>
+								<th>Next</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<p class="footer">
+			Not an official website of <a href="https://www.churchofjesuschrist.org/">The Church of Jesus Christ of Latter-day Saints</a>.<br>
+			Original Calling Manager by Justin Sirois (Tech Forum user jds580s), callingmanager.com.<br>
+			This copy keeps member data in your browser.
+		</p>
+
+		<div class="infobox">
+			<span class="close" role="button" tabindex="0">&#10006;</span>
+			<h2>Does this leave my computer?</h2>
+			<p><strong>Names and callings stay in this browser.</strong> Church policy is <a href="https://www.churchofjesuschrist.org/help/support/policies/general-policies/use-of-online-resources-in-church-callings?lang=eng">clear</a> that membership data should not be sent to third-party servers.</p>
+			<p class="question">What happens when I paste a report?</p>
+			<p class="answer">The paste is read by a script in this page. There is no form upload and no request back to a server. After the board is built, the text box is cleared.</p>
+			<p class="question">Where is the board saved?</p>
+			<p class="answer">Automatically in this browser (local storage and, when the browser allows it, IndexedDB). Export writes a JSON file only when you ask. A passphrase option encrypts that file in the browser before download. Nothing is sent anywhere to do that.</p>
+			<p class="question">How can I check?</p>
+			<p class="answer">This page includes a Content-Security-Policy that sets <code>connect-src 'none'</code>, so the browser refuses network connections from the page. You can also disconnect from the network after the page has loaded and keep working. Libraries and fonts are files in this copy, not CDN links.</p>
+			<a class="close button" href="#close">Close</a>
+		</div>
+	</div>
+
+	<div id="armed-banner" class="armed-banner" hidden>
+		<span>Placing <strong id="armed-name"></strong>. Click a calling on the board.</span>
+		<button type="button" id="armed-search" class="tool">Search callings</button>
+		<button type="button" id="armed-cancel" class="tool tool-quiet">Cancel</button>
+	</div>
+
+	<div id="assign-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="assign-title">
+			<h2 id="assign-title">Assign</h2>
+			<label for="assign-search">Search</label>
+			<input id="assign-search" type="search" autocomplete="off" spellcheck="false" placeholder="Type a name or calling">
+			<ul id="assign-results" role="listbox"></ul>
+			<p id="assign-hint" class="hint"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-close" data-close="1" data-disarm="1">Cancel</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="pending-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card cm-modal-wide" role="dialog" aria-modal="true" aria-labelledby="pending-title">
+			<h2 id="pending-title">Pending actions</h2>
+			<p class="hint">Track each release and each new calling. Select rows to draft sacrament meeting wording.</p>
+			<div id="pending-body"></div>
+			<p id="pending-note" class="hint"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="generate-wording">Sacrament wording</button>
+				<button type="button" data-close="1">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="wording-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="wording-title">
+			<h2 id="wording-title">Sacrament meeting wording</h2>
+			<p class="hint">Releases are listed first, then sustainings. Read it in bishopric meeting before using it.</p>
+			<textarea id="wording-text" rows="12" readonly></textarea>
+			<p id="copy-wording-note" class="hint"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="copy-wording">Copy</button>
+				<button type="button" data-close="1">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="export-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="export-title">
+			<h2 id="export-title">Export this board</h2>
+			<p class="hint">The file stays on this computer unless you move it. A plain export contains names. An encrypted export does not, without the passphrase.</p>
+			<label class="check-line"><input type="checkbox" id="export-encrypt"> Encrypt with a passphrase</label>
+			<p id="export-crypto-note" class="hint"></p>
+			<div id="export-crypto-fields" hidden>
+				<label for="export-pass">Passphrase</label>
+				<input id="export-pass" type="password" autocomplete="new-password">
+				<label for="export-pass2">Repeat passphrase</label>
+				<input id="export-pass2" type="password" autocomplete="new-password">
+			</div>
+			<p id="export-error" class="hint error-text"></p>
+			<label for="export-text">File text, if you need to copy it</label>
+			<textarea id="export-text" rows="6" readonly></textarea>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="export-download">Download JSON</button>
+				<button type="button" id="export-copy">Copy JSON</button>
+				<button type="button" data-close="1">Close</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="import-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="import-title">
+			<h2 id="import-title">Open an encrypted file</h2>
+			<label for="import-passphrase">Passphrase</label>
+			<input id="import-passphrase" type="password" autocomplete="current-password">
+			<p id="import-error" class="hint error-text"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="import-unlock">Open</button>
+				<button type="button" data-close="1">Cancel</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="name-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<form class="cm-modal-card" id="name-form" role="dialog" aria-modal="true" aria-labelledby="name-modal-title">
+			<h2 id="name-modal-title">Add</h2>
+			<label id="name-modal-label" for="name-modal-input">Name</label>
+			<input id="name-modal-input" type="text" maxlength="120" autocomplete="off" required>
+			<p id="name-modal-error" class="hint error-text"></p>
+			<div class="cm-actions">
+				<button type="submit" class="cm-primary">Add</button>
+				<button type="button" data-close="1">Cancel</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="confirm-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+			<h2 id="confirm-title">Confirm</h2>
+			<p id="confirm-message"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="confirm-yes">Continue</button>
+				<button type="button" data-close="1">Cancel</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="message-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="message-title">
+			<h2 id="message-title">Notice</h2>
+			<p id="message-body"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" data-close="1">OK</button>
+			</div>
+		</div>
+	</div>
+
+	<input type="file" id="import-file" accept="application/json,.json" hidden>
+	<textarea id="copy-buffer" class="copy-buffer" tabindex="-1" aria-hidden="true"></textarea>
+
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/jquery-ui/jquery-ui.min.js"></script>
+	<script src="vendor/moment/moment.min.js"></script>
+	<script src="vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+	<script src="vendor/jquery-validate/jquery.validate.min.js"></script>
+	<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+	<script src="vendor/bootbox/bootbox.min.js"></script>
+	<script src="js/parse-callings.js"></script>
+	<script src="js/pipeline.js"></script>
+	<script src="js/crypto-file.js"></script>
+	<script src="js/sample-data.js"></script>
+	<script src="js/app.js"></script>
+</body>
+</html>
