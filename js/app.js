@@ -625,6 +625,20 @@
 
   function renderList() {
     var $body = $('#list-table tbody').empty();
+    $('#new > ul.member').each(function () {
+      var $member = $(this);
+      var name = $member.children('li.name').first().text().trim();
+      var $row = $('<tr class="vacant"></tr>');
+      $row.attr('data-search', ('unassigned ' + name).toLowerCase());
+      $row.append($('<td class="wrap"></td>').text('Unassigned'));
+      $row.append($('<td></td>').text(''));
+      $row.append($('<td></td>').text(name));
+      $row.append('<td></td><td></td><td></td><td></td>');
+      $row.append($('<td></td>').append(
+        $('<button type="button" class="linkish assign-row"></button>').attr('data-member-id', $member.attr('data-member-id')).text('Assign')
+      ));
+      $body.append($row);
+    });
     $('#ward li.calling').each(function () {
       var $calling = $(this);
       var callingName = $calling.children('span.calling-name').first().text().trim();
@@ -896,6 +910,10 @@
     else if (state.screen === 'form') showForm();
     else showBoardView();
     readyToSave = true;
+    if (state.savedAt) {
+      var restoredAt = typeof moment === 'function' ? moment(state.savedAt).format('h:mm A') : String(state.savedAt).slice(11, 16);
+      setSaveStatus('Saved in this browser at ' + restoredAt);
+    }
     measureToolbar();
   }
 
