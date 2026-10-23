@@ -54,6 +54,24 @@ GitHub Pages can serve this repository as static files from the repository root.
 
 There is no build step and no server.
 
+## Hosting
+
+The live site is [https://callings.rhionin.com](https://callings.rhionin.com). It is an assets-only Cloudflare Worker named `calling-manager`. Wrangler uploads the files at the repository root. `.assetsignore` leaves out tests, `.github`, docs, and Node files. There is no Worker script.
+
+`workers.dev` and preview URLs are off. A push to `main` runs the tests, then deploys with Wrangler 4.152.0 (`cloudflare/wrangler-action` v4.1.3). A pull request runs the same tests and `wrangler deploy --dry-run`, and skips the deploy job. Only that job can read the repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Fork pull requests do not run it.
+
+The token permissions below are the minimum described by Cloudflare’s [Workers roles and permissions](https://developers.cloudflare.com/workers/authorization/workers/) (15 Sep 2026) and [Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/) (29 Sep 2026):
+
+- Account **Workers Scripts:Edit**. That legacy permission is **Editor** at the Workers product scope. It deploys an existing Worker.
+- Zone `rhionin.com` **Workers Routes:Edit** (current docs: Zone > Workers Routes > Write). The config keeps the custom domain `callings.rhionin.com`, so a deploy that attaches or updates that domain needs this.
+- Zone **DNS:Edit** is not part of that set. Cloudflare creates the custom-domain DNS record and certificate. The docs require Editor plus Workers Routes Write for the change, and the Attach Worker Domain API lists Workers Scripts Write only.
+
+Creating the Worker the first time needs product-level **Workers Admin**. Editor cannot create a Worker, and a per-worker role cannot be granted until it exists. Custom domains also do not use per-worker roles. Create an empty Worker named `calling-manager` in the account before relying on the token above, or use Admin for that first deploy and then replace the token. The zone `rhionin.com` must already be on the account, and `callings.rhionin.com` must not already have a CNAME record.
+
+The response Content-Security-Policy header repeats the meta tag in `index.html`, including `connect-src 'none'`. `X-Frame-Options: DENY` is separate so the two CSP strings stay the same. `frame-ancestors` is not in the policy because a meta tag would ignore it.
+
+Roll back with `npx wrangler rollback`. That immediately serves an older version on the same domain. With no version id it returns to the version before the latest. You can pass a version id. Rollback reaches the 100 most recent versions and does not change DNS or other Cloudflare resources.
+
 ## Paste format
 
 The old LCR address `https://lcr.churchofjesuschrist.org/api/orgs/sub-orgs-with-callings` has returned 404 since March 2026. This page does not call LCR. It reads whatever JSON you paste.

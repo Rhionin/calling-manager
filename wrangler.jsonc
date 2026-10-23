@@ -1,0 +1,33 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "calling-manager",
+  // Assets-only Worker. There is no script and no build.
+  "compatibility_date": "2026-10-23",
+  // Member data stays in the browser. Do not also publish a workers.dev hostname or preview URLs.
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "callings.rhionin.com",
+      "zone_name": "rhionin.com",
+      "custom_domain": true
+    }
+  ],
+  // The site files stay at the repository root so existing relative paths keep working.
+  // .assetsignore drops tests, CI, docs, and Node tooling from the upload.
+  "assets": {
+    "directory": "."
+  },
+  "observability": {
+    "enabled": true,
+    "redact_query_string": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.01
+    }
+  }
+}

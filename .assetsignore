@@ -1,0 +1,22 @@
+# Keep the upload to the static site. Paths are relative to the repository root,
+# which is the assets directory. _headers, _redirects, and this file are already
+# omitted by Wrangler.
+
+.git
+.github
+.wrangler
+.playwright-mcp
+.cursor
+node_modules
+test
+docs
+
+package.json
+package-lock.json
+wrangler.jsonc
+README.md
+.gitignore
+.nojekyll
+.dev.vars
+.dev.vars.*
+*.log
