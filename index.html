@@ -1,609 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>LDS Callings Manager</title>
-		
-		<meta name="viewport" content="width=device-width">
-		<meta content="LDS Callings Manager is a web based system for visualizing callings within a ward." name="description">
-		<meta content="Justin Sirois" name="author">
-		<!-- CSS styles -->
-		<link href="style.min.css" media="screen" rel="stylesheet" type='text/css'>
-		<link href="print.min.css" media="print" rel="stylesheet" type='text/css' id="printChangesCSS" />
-		<link href="print-all.min.css" media="print" rel="stylesheet" type='text/css' id="printAllCSS" disabled />
-		<link href='https://fonts.googleapis.com/css?family=Lato:400,400italic,700,900' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
-		
-		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-		<!--[if lt IE 9]> <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
-		
-		<!-- Le fav and touch icons -->
-		<link rel="apple-touch-icon" sizes="57x57" href="https://callingmanager.com/images/favicon/apple-touch-icon-57x57.png">
-		<link rel="apple-touch-icon" sizes="60x60" href="https://callingmanager.com/images/favicon/apple-touch-icon-60x60.png">
-		<link rel="apple-touch-icon" sizes="72x72" href="https://callingmanager.com/images/favicon/apple-touch-icon-72x72.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="https://callingmanager.com/images/favicon/apple-touch-icon-76x76.png">
-		<link rel="apple-touch-icon" sizes="114x114" href="https://callingmanager.com/images/favicon/apple-touch-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="https://callingmanager.com/images/favicon/apple-touch-icon-120x120.png">
-		<link rel="apple-touch-icon" sizes="144x144" href="https://callingmanager.com/images/favicon/apple-touch-icon-144x144.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="https://callingmanager.com/images/favicon/apple-touch-icon-152x152.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="https://callingmanager.com/images/favicon/apple-touch-icon-180x180.png">
-		<link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
-		<link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png" sizes="192x192">
-		<link rel="icon" type="image/png" href="images/favicon/favicon-96x96.png" sizes="96x96">
-		<link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
-		<link rel="manifest" href="images/favicon/manifest.json">
-		<link rel="shortcut icon" href="images/favicon/favicon.ico">
-		<meta name="msapplication-TileColor" content="#2d89ef">
-		<meta name="msapplication-TileImage" content="https://callingmanager.com/images/favicon/mstile-144x144.png">
-		<meta name="msapplication-config" content="https://callingmanager.com/images/favicon/browserconfig.xml">
-		<meta name="theme-color" content="#ffffff">
-		
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		
-		<!-- JS, jQuery, and other scripts -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- parse and manipulate dates for time serving in calling calculations -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- enable touch on mobile devices -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js" integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	</head>
-	<body>
-		<div id="loading"><img src="images/home/spinner.gif" /><br />Loading...</div>
-		<div class="background-image"></div>
-		<div class="top-section">
-			<h1>LDS Calling Manager<span id="changesAsOf">Changes as of: <span id="dateOfChanges"></span></span></h1>
-			<div id="menu-form" class="menu">
-				<a class="demo" href="index.html#">launch demo</a>
+<head>
+	<meta charset="utf-8">
+	<title>Calling Manager</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Private ward calling board. Member data stays in this browser.">
+	<meta name="referrer" content="no-referrer">
+	<meta name="robots" content="noindex, nofollow">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'self'; media-src 'none'">
+	<link rel="stylesheet" href="vendor/fonts/fonts.css">
+	<link href="style.min.css" media="screen" rel="stylesheet">
+	<link href="print.min.css" media="print" rel="stylesheet" id="printChangesCSS">
+	<link href="print-all.min.css" media="print" rel="stylesheet" id="printAllCSS" disabled>
+	<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="vendor/fontawesome/css/v4-shims.min.css">
+	<link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="css/local.css">
+	<link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="images/favicon/manifest.json">
+	<link rel="shortcut icon" href="images/favicon/favicon.ico">
+	<meta name="theme-color" content="#353639">
+</head>
+<body>
+	<a class="skip-link" href="#container">Skip to content</a>
+	<div id="loading"><img src="images/home/spinner.gif" alt=""><br>Loading...</div>
+	<div class="background-image"></div>
+	<div class="top-section">
+		<div class="title-row">
+			<h1>Calling Manager<span id="changesAsOf">Changes as of: <span id="dateOfChanges"></span></span></h1>
+			<p id="save-status" class="save-status" aria-live="polite"></p>
+		</div>
+		<p id="unit-banner" class="unit-banner" hidden></p>
+		<div id="menu-form" class="menu">
+			<a class="demo" href="#sample">Load sample</a>
+		</div>
+		<div id="toolbar" class="toolbar" hidden>
+			<button type="button" class="tool" id="add-member"><i class="fa-solid fa-user-plus"></i> Add person</button>
+			<button type="button" class="tool" id="toggle-time" aria-pressed="false"><i class="fa-regular fa-clock"></i> Time in calling</button>
+			<div class="print-wrap">
+				<button type="button" class="tool" id="print-open"><i class="fa-solid fa-print"></i> Print</button>
+				<div id="printMenu">
+					<a href="#print-changes" id="print-changes">Print changes</a>
+					<a href="#print-all" id="print-all">Print all callings</a>
 				</div>
-			<div id="menu-callings" class="menu">
-				<a href="index.html#" title="Add a member"><i class="fa fa-user-plus"></i></a>
-				<a href="index.html#" title="Time-in-calling"><i class="fa-regular fa-clock"></i></a>
-				<div title="Print"><a href="index.html#"><i class="fa fa-print"></i></a></div>
-					<div id="printMenu"><a href="index.html#" id="print-changes">Print Changes</a><a href="index.html#" id="print-all">Print All Callings</a></div>
-				<a href="index.html#" class="touch"><i class="fa-regular fa-hand-point-up"></i></a>
 			</div>
+			<button type="button" class="tool" id="toggle-touch" aria-pressed="false"><i class="fa-regular fa-hand-point-up"></i> Lock drag</button>
+			<button type="button" class="tool" id="toggle-view" aria-pressed="false"><i class="fa-solid fa-list"></i> <span id="view-label">List</span></button>
+			<button type="button" class="tool" id="open-pending"><i class="fa-solid fa-clipboard-list"></i> Pending <span id="pending-count">0</span></button>
+			<button type="button" class="tool" id="open-export"><i class="fa-solid fa-download"></i> Export</button>
+			<button type="button" class="tool" id="open-import"><i class="fa-solid fa-upload"></i> Import</button>
+			<button type="button" class="tool" id="back-to-form">New paste</button>
+			<button type="button" class="tool tool-quiet" id="clear-data">Clear</button>
+			<label class="find-label">Find
+				<input id="board-search" type="search" placeholder="Calling or person" autocomplete="off" spellcheck="false">
+			</label>
 		</div>
-		<div id="container">
-			<div id="form-page">
-				<div id="form">
-				    					<h2>Two ways to use CallingManager.com</h2>
-					<div class="left">
-						<h3>1. Load demo calling data</h3>
-						<p>If you don't have access to Leader and Clerk Resources or just want to kick the tires, try the demo below.</p>
-						<a class="button demo-button" href="index.html#"><i class="fa fa-sign-in"></i>Launch Demo</a>
-					</div>
-				    					<div class="right">
-						<h3>2. Copy and paste from ChurchOfJesusChrist.org</h3>
-						<ol>
-							<li>First, <a href="https://lcr.churchofjesuschrist.org" target="_blank">log into LCR as you normally would</a>.</li>
-							<li>Click <a href="https://lcr.churchofjesuschrist.org/api/orgs/sub-orgs-with-callings?ip=true&lang=eng" target="_blank">this link</a> to display LCR calling data.</li>
-							<li>Copy all the text on the page ("CTRL A" to select all, then "CTRL C" to copy)</li>
-							<li>Paste into the first box below ("CTRL V" to paste)</li>
-							<li>You can optionally repeat for "Out of Unit Callings".
-								<ul>
-									<li>Visit <a href="https://lcr.churchofjesuschrist.org/api/orgs/out-of-unit-callings?includeTypes=LIVING_INSIDE&lang=eng" target="_blank">the "Out of Unit Callings" page.</a></li>
-									<li>Select all the text that appears and paste it into the 2nd box below.</li>
-								</ul>
-							</li>
-							<li>Then submit the form to continue</li>
-						</ol>
-					</div>
-					<div class="bottom">
-						<form action="https://callingmanager.com/callings.php" id="callings-by-org-form" method="post">
-							<div>
-								<label for="input-callings-by-org">Callings by Organization</label><br />
-								<textarea name="input-callings-by-org" id="input-callings-by-org" form="callings-by-org-form" class="required" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea><br />
-							</div>
-							<div>
-								<label for="input-out-of-unit-callings"><s>Out of Unit Callings</s> <span class="optional">(optional)</span>  <br/><span class="optional">Due to a recent change in how the Church presents out-of-unit callings, this feature is not currently working.</span></label><br />
-								<textarea name="input-out-of-unit-callings" id="input-out-of-unit-callings" form="callings-by-org-form" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea><br />
-							</div>
-							<a href="index.html#" class="button submit" style="width: 40%; clear: both;">Submit</a>
-							<a href="index.html#" class="note"><em>wait... is this okay to do?</em></a>
-							<!--<span class="note">Note: If you are part of the Leader and Clerk Resources Beta, CallingManager.com does not currently support LCR 3.0 Beta.  It will be updated when calling management functionality roll out to all units. You may still view the <a href="//demo.callingmanager.com">demo</a>.</span>-->
-							
-													</form>
-					</div>
-				</div>			
-			</div>
-			
-			<!-- BEGIN CALLING PAGE -->
-			<div id="callings-page" class="aftersubmit">
-				<ul id="sortparent" class="organization"></ul>
-				<ul id="new" class="organization">
-					<li class="h2 notSortable"><h2>New / Names To Consider</h2></li>
-				</ul>
-				<ul id="ward">
-					<!-- INSERT PARSED CALLINGS HERE -->
-				
-					<ul id="hide" class="organization" style='clear: both;'>
-						<li class="h2 notSortable"><h2>Hide</h2></li>
-					</ul>
-				</ul>
-							</div>
-			
-	
-			<!-- BEGIN PAGE FOOTER -->
-			<p class="footer">
-				Not an official website of <a target="_blank" href="https://churchofjesuschrist.org">The Church of Jesus Christ of Latter-day Saints</a>.<br />
-			</p>
-			<!--googleoff: all-->
-			<iframe class="footer" allowTransparency="true" src="copyright.php.html" scrolling="no"></iframe>
-			<!--googleon: all-->
-			<br />
-			<div class="infobox">
-				<span class="close" href="#">&#10006;</span>
-				<h2>Is it safe to use this site?</h2>
-								<p><strong>Great question!  Church policy is <a target="_blank" href="https://www.churchofjesuschrist.org/help/support/policies/general-policies/use-of-online-resources-in-church-callings?lang=eng">very</a> <a target="_blank" href="https://www.churchofjesuschrist.org/help/support/meetinghouse-technology/my-calling-as-a-technology-specialist/technology-standards?lang=eng">clear</a> that membership data should <em>NOT</em> be sent to third-party servers, websites or cloud-based service providers.</strong></p>
-				<p class="question">Q. But aren't I submitting data to CallingManager.com?</p>
-				<p class="answer">A. While it may seem like it, the answer is <em>NO</em>.  CallingManager.com loads an application in your web browser, but all the information you enter and the work you do with that data takes place on your local computer&mdash;similar to using a spreadsheet program or other desktop software. To get a bit more technical, this page uses client side javascript code to accept, parse, and output everything. No communication with the server is necessary beyond the initial page load.</p>
-				<p class="question">Q. I'm still not sure... can you prove it?</p>
-				<p class="answer">A. Of course! Not only is all the code used to manage callings open source (you can look at all the nuts and bolts yourself if you like), there is a nice and simple way to put your mind at ease.  After loading this page, feel free to disconnect from wifi or unplug your internet connection. Then input your calling data and work off-line.  When you are done and have printed your changes close the browser and reconnect to the internet.</p>
-				
-				<a class="close button" href="index.html#">close</a>
+	</div>
+
+	<div id="container">
+		<div id="form-page">
+			<div id="form">
+				<h2>Build a calling board on this computer</h2>
+				<div class="left">
+					<h3>1. Load the fictional sample</h3>
+					<p>The sample ward is invented. Use it to learn the board. It is not a real unit.</p>
+					<a class="button demo-button" id="load-sample" href="#sample"><i class="fa-solid fa-sign-in"></i>Load sample</a>
+				</div>
+				<div class="right">
+					<h3>2. Paste callings JSON</h3>
+					<ol>
+						<li>In Leader and Clerk Resources, open the callings data your account can see.</li>
+						<li>The old address <code>lcr.churchofjesuschrist.org/api/orgs/sub-orgs-with-callings</code> has returned 404 since March 2026. If you can still reach a JSON list of organizations, copy that text.</li>
+						<li>Paste it below. This page reads the paste locally and then clears the box.</li>
+						<li>Out-of-unit callings are still unavailable, matching the previous tool.</li>
+					</ol>
+					<p><a href="#fill-sample" id="fill-sample">Put the sample JSON in the box</a></p>
+				</div>
+				<div class="bottom">
+					<form id="callings-by-org-form" autocomplete="off">
+						<div>
+							<label for="input-callings-by-org">Callings by organization</label><br>
+							<textarea name="input-callings-by-org" id="input-callings-by-org" class="required" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+						</div>
+						<div>
+							<label for="input-out-of-unit-callings"><s>Out of unit callings</s> <span class="optional">(not available)</span></label><br>
+							<textarea name="input-out-of-unit-callings" id="input-out-of-unit-callings" autocomplete="off" disabled></textarea>
+						</div>
+						<button type="submit" class="button submit">Build the board</button>
+						<a href="#privacy" class="note"><em>Does this leave my computer?</em></a>
+					</form>
+				</div>
 			</div>
 		</div>
 
-<script>//<!-- Script to close info box -->
-  $(document).on('click', 'div.infobox .close', function(event) {
-    $('div.infobox').toggleClass('open');
-    event.preventDefault(event);
-});
-</script>
+		<div id="callings-page" class="aftersubmit">
+			<ul id="sortparent" class="organization"></ul>
+			<ul id="new" class="organization">
+				<li class="h2 notSortable"><h2>Unassigned / names to consider</h2></li>
+			</ul>
+			<ul id="ward">
+				<ul id="hide" class="organization">
+					<li class="h2 notSortable"><h2>Hide</h2></li>
+				</ul>
+			</ul>
+		</div>
 
-<script>//<!-- Script to close info box -->
-  $(document).on('click', 'a.note', function(event) {
-    $('div.infobox').toggleClass('open');
-    event.preventDefault(event);
-});
-</script>
+		<div id="list-page" hidden>
+			<div class="list-card">
+				<h2>Calling list</h2>
+				<label class="find-label list-find">Filter
+					<input id="list-search" type="search" placeholder="Organization, calling, or person" autocomplete="off">
+				</label>
+				<div class="list-scroll">
+					<table id="list-table">
+						<thead>
+							<tr>
+								<th>Organization</th>
+								<th>Calling</th>
+								<th>Person</th>
+								<th>Sustained</th>
+								<th>Set apart</th>
+								<th>Status</th>
+								<th>Next</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 
-<script>//<!-- Form Submit button -->
-  $(document).on('click', 'form#callings-by-org-form a.submit', function(event) {
-	event.preventDefault(event);
-	if($("form#callings-by-org-form").valid()){   // test for validity
-	
-		// Show loading
-		$('div#loading').show();
-		
-		
-		setTimeout(function(){
-			// Gather submitted form content
-			var formcontent = $('textarea#input-callings-by-org').val();
-			var formcontent_stake = $('textarea#input-out-of-unit-callings').val();
-			
-			// Send to be parsed
-			parseCallings(formcontent, formcontent_stake);
-		}, 0);
-	}
-  });
-</script>
+		<p class="footer">
+			Not an official website of <a href="https://www.churchofjesuschrist.org/">The Church of Jesus Christ of Latter-day Saints</a>.<br>
+			Original Calling Manager by Justin Sirois (Tech Forum user jds580s), callingmanager.com.<br>
+			This copy keeps member data in your browser.
+		</p>
 
-<script>//<!-- Function to parse callings -->
-function parseCallings(formcontent, formcontent_stake) {
+		<div class="infobox">
+			<span class="close" role="button" tabindex="0">&#10006;</span>
+			<h2>Does this leave my computer?</h2>
+			<p><strong>Names and callings stay in this browser.</strong> Church policy is <a href="https://www.churchofjesuschrist.org/help/support/policies/general-policies/use-of-online-resources-in-church-callings?lang=eng">clear</a> that membership data should not be sent to third-party servers.</p>
+			<p class="question">What happens when I paste a report?</p>
+			<p class="answer">The paste is read by a script in this page. There is no form upload and no request back to a server. After the board is built, the text box is cleared.</p>
+			<p class="question">Where is the board saved?</p>
+			<p class="answer">Automatically in this browser (local storage and, when the browser allows it, IndexedDB). Export writes a JSON file only when you ask. A passphrase option encrypts that file in the browser before download. Nothing is sent anywhere to do that.</p>
+			<p class="question">How can I check?</p>
+			<p class="answer">This page includes a Content-Security-Policy that sets <code>connect-src 'none'</code>, so the browser refuses network connections from the page. You can also disconnect from the network after the page has loaded and keep working. Libraries and fonts are files in this copy, not CDN links.</p>
+			<a class="close button" href="#close">Close</a>
+		</div>
+	</div>
 
-		var errors = '';
-		
-		// Prep ward variables
-		var jsonData = jQuery.parseJSON(formcontent);
-		//console.log("Ward Callings"); // use the console for debugging
-		//console.log( jsonData ); // use the console for debugging
-		var callingsHTML = '';
-		
-		if(formcontent === '') { errors += 'No valid content to process\n'; }
-		
-		// Prep stake variables
-		if(formcontent_stake !== '') {
-			var jsonData_stake = jQuery.parseJSON(formcontent_stake);
-			//console.log("Stake Callings"); // use the console for debugging
-			//console.log( jsonData_stake ); // use the console for debugging
-		}
-		
-		
-	//<!-- Parse json calling data -->
-	$.each(jsonData, function() {
-		callingsHTML += '<ul id="' + (this.defaultOrgName.replace(/ /g, '-')).toLowerCase() + '" class="organization">\n';
-		callingsHTML += '	<li class="h2 notSortable"><h2>' + this.defaultOrgName + '</h2><a href="index.html#" title="Add calling"><i class="fa-regular fa-square-plus"></i></a></li>\n';
-		
-		if(this.children.length > 0) {
-			$.each(this.children, function() {
-				// Add sub-organization
-				callingsHTML += '<ul id="' + (this.defaultOrgName.replace(/ /g, '-')).toLowerCase() + '" class="organization">\n';
-				callingsHTML += '	<li class="h2 notSortable"><h2>' + this.defaultOrgName + '</h2><a href="index.html#" title="Add calling"><i class="fa-regular fa-square-plus"></i></a></li>\n';
-				$.each(this.callings, function() {
-					callingsHTML += buildCalling(this); // Add to callings
-				});
-				callingsHTML += '</ul>';
-				
-				$.each(this.children, function() {
-					// Add sub-sub-organization
-					callingsHTML += '<ul id="' + (this.defaultOrgName.replace(/ /g, '-')).toLowerCase() + '" class="organization">\n';
-					callingsHTML += '	<li class="h2 notSortable"><h2>' + this.defaultOrgName + '</h2><a href="index.html#" title="Add calling"><i class="fa-regular fa-square-plus"></i></a></li>\n';
-					$.each(this.callings, function() {
-						callingsHTML += buildCalling(this); // Add to callings
-					});
-					callingsHTML += '</ul>';
-				});
-			});
-		}
-		
-		$.each(this.callings, function() {
-			callingsHTML += buildCalling(this); // Add to callings
-		});
-		
-		callingsHTML += '</ul>';
-	});
-	
-	
-	// Send callingsHTML to #ward
-	$("ul#ward").prepend(callingsHTML);
-	
-	
+	<div id="armed-banner" class="armed-banner" hidden>
+		<span>Placing <strong id="armed-name"></strong>. Click a calling on the board.</span>
+		<button type="button" id="armed-search" class="tool">Search callings</button>
+		<button type="button" id="armed-cancel" class="tool tool-quiet">Cancel</button>
+	</div>
 
-		// Report errors if any
-		if(errors === '') {
-			// Things look good, return data to screen
-									
-			// Hide Form and Show Callings
-			$('div.infobox').toggleClass('aftersubmit');
-			$('div.menu').toggleClass('aftersubmit');
-			$('div#form-page').toggleClass('aftersubmit');
-			$('div#callings-page').toggleClass('aftersubmit');
-			
-		} else {
-			// There are errors, return them to screen.
-			alert(errors);
-		}
-	// Ensure that individuals in callings can be dragged into new callings.
-	refreshSortable();
-	$('div#loading').hide();
-  };
-</script>
-		
-		
-<!--
-		
-		// Now it's time to work with Stake (out-of-unit) data if any
-		var formcontent_stake = $('textarea#input-out-of-unit-callings').val().replace(/[^a-zA-Z0-9-_., |()'\t\n]/g, '');
-		if(formcontent_stake !== '') {
-			// Yes there is stake info, process it now.
-			if((formcontent_stake.indexOf('Out-of-Unit Callings  Print') <= -1) && (formcontent_stake.indexOf('Out-of-Unit Callings   Print  ') <= -1) && (formcontent_stake.indexOf('Out-of-Unit Callings\nPrint') <= -1)) { errors += 'Could not find stake callings.\n'; } // If string does not contains our starting phrase throw error (Chrome && IE && FireFox)
-			formcontent_stake = formcontent_stake.substring(formcontent_stake.indexOf('Out-of-Unit Callings  Print')); // Delete everything before this line of text (Chrome)
-			formcontent_stake = formcontent_stake.substring(formcontent_stake.indexOf('Out-of-Unit Callings   Print')); // Delete everything before this line of text (IE)
-			formcontent_stake = formcontent_stake.substring(formcontent_stake.indexOf('Out-of-Unit Callings\nPrint')); // Delete everything before this line of text (FireFox)
-			formcontent_stake = formcontent_stake.replace(/\n +/g, '\n'); // (FF) Remove spaces at beginning of lines (helps match FireFox text to Chrome)
-			formcontent_stake = formcontent_stake.replace(/ +\n/g, '\n'); // (IE) Remove spaces at end of lines (helps match IE text to Chrome)
-			formcontent_stake = formcontent_stake.replace(/ \t/g, '\t'); // (FF) Remove space when its followed by a tab (helps match Firefox text to Chrome)
-			formcontent_stake = formcontent_stake.replace(/  /g, '\t'); // (IE) Replace double spaces with a tab (helps match IE to Chrome)
-			formcontent_stake = formcontent_stake.replace(/\t /g, '\t\t'); // (IE) Replace space after a tab with a tab (helps match IE text to Chrome)
-			formcontent_stake = formcontent_stake.replace(/[\n]+/g, '\n'); // Remove multiple empty lines
-			if(formcontent_stake.indexOf('\nCount ') <= -1) { errors += 'Could not find end of stake callings.\n'; } // If string does not contains our ending phrase throw error
-			formcontent_stake = formcontent_stake.substring(0, formcontent_stake.indexOf('\nCount ')); // Delete everything after this line of text (this doesn't allow for out of Stake callings, but those should be rare)
-			formcontent_stake = formcontent_stake.replace(/ \n\t/g, '\n'); // Custom callings begin with an extra tab, remove those to match other callings
-			formcontent_stake = $.trim(formcontent_stake); // Get rid of any empty spaces or linese at the end
-					
-			text_to_remove = [
-				"Out-of-Unit Callings	Print\n", // Remove 'Out of Unit Callings' from first line (Chrome)
-				"Out-of-Unit Callings		Print\n", // Remove 'Out of Unit Callings' from first line (IE)
-				"Out-of-Unit Callings\nPrint\n", // Remove 'Out of Unit Callings' from first line (FireFox)
-				"Stake Callings\n", // Remove ' View Organization' from calling after calling catagories
-				"CALLING	NAME	SUSTAINED\n", // for Chrome
-				"Calling	Name	Sustained\n", // for FireFox
-				"Calling\nName\nSustained\n", // for IE
-				"CALLING	NAME\n", // for Mobile Safari and Chrome
-			];
-			formcontent_stake = formcontent_stake.replace(new RegExp("\\b(" + text_to_remove.join("|") + ")\\b", "g"), ""); // execute removal of the above text
-			formcontent_stake = formcontent_stake.replace(/\t/g, '|'); // LAST step - replace tabs with pipes
-			
-			// Check our work
-			if(formcontent_stake === '') {
-				// Something isn't looking right.  Throw an error
-				errors += 'Sorry, could not extract stake calling data.\n';
-			}
-		}
--->
-		
+	<div id="assign-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="assign-title">
+			<h2 id="assign-title">Assign</h2>
+			<label for="assign-search">Search</label>
+			<input id="assign-search" type="search" autocomplete="off" spellcheck="false" placeholder="Type a name or calling">
+			<ul id="assign-results" role="listbox"></ul>
+			<p id="assign-hint" class="hint"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-close" data-close="1" data-disarm="1">Cancel</button>
+			</div>
+		</div>
+	</div>
 
+	<div id="pending-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card cm-modal-wide" role="dialog" aria-modal="true" aria-labelledby="pending-title">
+			<h2 id="pending-title">Pending actions</h2>
+			<p class="hint">Track each release and each new calling. Select rows to draft sacrament meeting wording.</p>
+			<div id="pending-body"></div>
+			<p id="pending-note" class="hint"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="generate-wording">Sacrament wording</button>
+				<button type="button" data-close="1">Close</button>
+			</div>
+		</div>
+	</div>
 
+	<div id="wording-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="wording-title">
+			<h2 id="wording-title">Sacrament meeting wording</h2>
+			<p class="hint">Releases are listed first, then sustainings. Read it in bishopric meeting before using it.</p>
+			<textarea id="wording-text" rows="12" readonly></textarea>
+			<p id="copy-wording-note" class="hint"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="copy-wording">Copy</button>
+				<button type="button" data-close="1">Close</button>
+			</div>
+		</div>
+	</div>
 
+	<div id="export-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="export-title">
+			<h2 id="export-title">Export this board</h2>
+			<p class="hint">The file stays on this computer unless you move it. A plain export contains names. An encrypted export does not, without the passphrase.</p>
+			<label class="check-line"><input type="checkbox" id="export-encrypt"> Encrypt with a passphrase</label>
+			<p id="export-crypto-note" class="hint"></p>
+			<div id="export-crypto-fields" hidden>
+				<label for="export-pass">Passphrase</label>
+				<input id="export-pass" type="password" autocomplete="new-password">
+				<label for="export-pass2">Repeat passphrase</label>
+				<input id="export-pass2" type="password" autocomplete="new-password">
+			</div>
+			<p id="export-error" class="hint error-text"></p>
+			<label for="export-text">File text, if you need to copy it</label>
+			<textarea id="export-text" rows="6" readonly></textarea>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="export-download">Download JSON</button>
+				<button type="button" id="export-copy">Copy JSON</button>
+				<button type="button" data-close="1">Close</button>
+			</div>
+		</div>
+	</div>
 
-<script>//<!-- Function to build a single calling -->
-function buildCalling(calling) {
+	<div id="import-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="import-title">
+			<h2 id="import-title">Open an encrypted file</h2>
+			<label for="import-passphrase">Passphrase</label>
+			<input id="import-passphrase" type="password" autocomplete="current-password">
+			<p id="import-error" class="hint error-text"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="import-unlock">Open</button>
+				<button type="button" data-close="1">Cancel</button>
+			</div>
+		</div>
+	</div>
 
-	var callingHTML = '';
-	var status = '';
-	
-	if(calling.memberName != 'null') { status = 'occupied'; } else { status = 'not-occupied'; }
-	callingHTML += '	<li class="calling ' + status + '">\n';
-	callingHTML += '		<span class="calling-name">' + calling.position + '</span>\n';
-	if(calling.memberName != null) { // if no one is in the current calling, don't add a member in it.
-		var serving = 0;
-		if(calling.activeDate != '') { // Determine how many months serving
-			var date1 = moment(calling.activeDate, "YYYYMMDD");
-			var date2 = moment();
-			var verboseDate = moment(date1).format("YYYY MMM DD");
-			var totalmonths = moment(date2).diff(moment(date1), 'months', true);
-			if(totalmonths >= 72)     { serving = 72; }
-			else if(totalmonths >= 66) { serving = 66; }
-			else if(totalmonths >= 60) { serving = 60; }
-			else if(totalmonths >= 54) { serving = 54; }
-			else if(totalmonths >= 48) { serving = 48; }
-			else if(totalmonths >= 42) { serving = 42; }
-			else if(totalmonths >= 36) { serving = 36; }
-			else if(totalmonths >= 30) { serving = 30; }
-			else if(totalmonths >= 24) { serving = 24; }
-			else if(totalmonths >= 18) { serving = 18; }
-			else if(totalmonths >= 12) { serving = 12; }
-			else if(totalmonths >= 6)  { serving = 6; }
-		}
-		callingHTML += '		<ul class="member in-calling-' + serving + '">\n';
-		callingHTML += '			<i class="fa fa-chevron-down" title="More info"></i>\n';
-		callingHTML += '			<li class="name">' + calling.memberName + '</li>\n';
-		callingHTML += '			<li class="current-calling">' + calling.position + '</li>\n';
-		callingHTML += '			<li class="sustained">' + verboseDate + '</li>\n';
-		callingHTML += '			<li class="setapart">' + calling.setApart + '</li>\n';
-		callingHTML += '			<i class="fa fa-files-o"></i>\n';
-		callingHTML += '			<span class="close" title="Delete member">&#10006;</span>\n';
-		callingHTML += '		</ul>\n\n';
+	<div id="name-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<form class="cm-modal-card" id="name-form" role="dialog" aria-modal="true" aria-labelledby="name-modal-title">
+			<h2 id="name-modal-title">Add</h2>
+			<label id="name-modal-label" for="name-modal-input">Name</label>
+			<input id="name-modal-input" type="text" maxlength="120" autocomplete="off" required>
+			<p id="name-modal-error" class="hint error-text"></p>
+			<div class="cm-actions">
+				<button type="submit" class="cm-primary">Add</button>
+				<button type="button" data-close="1">Cancel</button>
+			</div>
+		</form>
+	</div>
 
-	}
-	callingHTML += '	</li>\n';
-	
-	return callingHTML;
-};
-</script>
+	<div id="confirm-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+			<h2 id="confirm-title">Confirm</h2>
+			<p id="confirm-message"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" id="confirm-yes">Continue</button>
+				<button type="button" data-close="1">Cancel</button>
+			</div>
+		</div>
+	</div>
 
-<script>//<!-- Script to display parsed callings on screen -->
-  function displayCallingsOnScreen() {
-    
-  };
-</script>
+	<div id="message-modal" class="cm-modal" hidden>
+		<div class="cm-modal-backdrop" data-close="1"></div>
+		<div class="cm-modal-card" role="dialog" aria-modal="true" aria-labelledby="message-title">
+			<h2 id="message-title">Notice</h2>
+			<p id="message-body"></p>
+			<div class="cm-actions">
+				<button type="button" class="cm-primary" data-close="1">OK</button>
+			</div>
+		</div>
+	</div>
 
-<script>//<!-- Form validation -->
-$(document).ready(function() {
-	$("#callings-by-org-form").validate();
-});
-</script>
+	<input type="file" id="import-file" accept="application/json,.json" hidden>
+	<textarea id="copy-buffer" class="copy-buffer" tabindex="-1" aria-hidden="true"></textarea>
 
-<script>//<!-- Add current date to printout -->
-$(document).ready(function() {
-	var date = moment();
-	var currentDate = date.format('MMMM Do YYYY');
-	$("#dateOfChanges").text(currentDate);
-});
-</script>
-
-<script>//<!-- Script to allow show more member info button -->
-  $(document).on('click', '.member > i.fa-chevron-down', function(event) {
-    $(this).parent().toggleClass('show');
-    event.preventDefault(event);
-});
-</script>
-
-<script>//<!-- Script to allow duplicating member -->
-  $(document).on('click', '.member > i.fa-files-o', function(event) {
-    var $toclone = $(this).parent();
-    var $parent = $(this).parent().parent();
-    $toclone.clone( true ).appendTo($parent);
-    event.preventDefault(event);
-});
-</script>
-
-<script>//<!-- Script to delete member -->
-  $(document).on('click', 'ul.member > span.close', function(event) {
-    var todelete = $(this).parent();
-    var calling = todelete.parent();
-    todelete.addClass('deleted');
-    todelete.detach();
-    $('#new').append(todelete);
-    calling.checkCallingChange();
-    event.preventDefault(event);
-});
-</script>
-
-<script>//<!-- Script to allow sorting of .members in .callings, and additional .callings in .organization -->
-  function refreshSortable() {
-    var oldParent = null;
-    $( ".calling, #new, #hide, #sortparent" ).sortable({
-      items: ".member:not(span.calling-name)",
-      cancel: ".notSortable",
-      connectWith: ".calling, #new, #hide",
-      cursor: "move",
-      containment: "#container",
-      start: function(evt, ui) {
-        oldParent = $(ui.item).parent();
-        var element = ui.item.detach();
-        $('ul#sortparent').append(element);
-      },
-      stop: function(event, ui) {
-        ui.item.parent().checkCallingChange();
-        oldParent.checkCallingChange();
-      }
-    }).disableSelection();
-  }
-  refreshSortable();
-</script>
-
-<script>//<!-- Function to check if a calling box should be marked .changed or not -->
-  $.fn.checkCallingChange = function() {
-    var calling = $(this);
-    
-    var parentCalling = $(this).children("span.calling-name").text();
-    var childrenCallings = $(this).find("li.current-calling").text();
-    
-    if (($(this).find("ul.member").hasClass("user-added-member"))) { // This .calling is now filled with a user-created member
-      $(this).addClass("changed");
-    }
-    else if ((childrenCallings === '') && ($(this).hasClass("not-occupied"))) { // This .calling is empty and was originally empty.  mark it NOT .changed
-      $(this).removeClass("changed");
-    }
-    else if(parentCalling == childrenCallings) { // parent and child match exactly.  mark it NOT .changed
-      $(this).removeClass("changed");
-    }
-    else if(parentCalling !== childrenCallings) { // parent and child callings do not match.  mark it .changed
-      $(this).addClass("changed");
-    }
-  };
-</script>
-
-<script>//<!-- Script to create new calling box -->
-  $(document).on('click', '.organization .fa-square-plus', function(e) { // This method works best on html that has been dynamically generated
-    var itemToAddTo = $(this).parent().parent().parent();
-    var newCalling;
-    var name=prompt("Name of new calling","New Calling").replace(/[^a-zA-Z ,._\/()'0-9-]+/g, '');
-    if (name!==null){
-      newCalling="<li class='calling user-added-calling'><span class='calling-name'>" + name + "</span></li>";
-      $(itemToAddTo).append(newCalling);
-      refreshSortable();
-    }
-    e.preventDefault(e);
-  });
-</script>
-
-<script>//<!-- Script to create new member box -->
-  $(document).on('click', '.fa-user-plus', function(event) {
-    var itemToAddTo = $('#new');
-    var newMember;
-    var name=prompt("Name of member","Lastname, Firstname").replace(/[^a-zA-Z ,._\/()'0-9-]+/g, '');
-    itemToAddTo.css({"display": "block"});
-    if (name!==null){
-      newMember="<ul class='member user-added-member'><li class='name'>" + name + "</li><li class='current-calling'></li><li class='sustained'></li><span title='Delete member' class='close'>&#10006;</span></ul>";
-      $(itemToAddTo).append(newMember);
-      refreshSortable();
-    }
-    $("html, body").animate({ scrollTop: 0 }, "medium"); // Scroll window to top so we can see new user
-    event.preventDefault(event);
-});
-</script>
-
-<script>//<!-- Script to print -->
-  $('#printMenu').mouseleave(function() {
-     $('#printMenu').slideUp();
-});
-  $(document).on('click', '.fa-print', function(event) {
-     $('#printMenu').slideToggle();
-     event.preventDefault(event);
-});
-
-<!-- Script to print changes -->
-  $(document).on('click', 'a#print-changes', function(event) {
-    $("#printChangesCSS").prop('disabled', '');
-    $("#printAllCSS").prop('disabled', 'disabled');
-    setTimeout(
-    function() 
-    {
-      window.print();
-    }, 150);
-    event.preventDefault(event);
-});
-<!-- Script to print all -->
-  $(document).on('click', 'a#print-all', function(event) {
-    $("#printAllCSS").prop('disabled', '');
-    $("#printChangesCSS").prop('disabled', 'disabled');
-    setTimeout(
-    function() 
-    {
-      window.print();
-    }, 150);
-    event.preventDefault(event);
-});
-
-
-<!-- Preload the print all style sheet -->
-$(function() {
-    $("#printAllCSS").prop('disabled', '');
-    $("#printChangesCSS").prop('disabled', 'disabled');
-    setTimeout(
-    function() 
-    {
-        $("#printChangesCSS").prop('disabled', '');
-        $("#printAllCSS").prop('disabled', 'disabled');
-    }, 1500);
-});
-</script>
-
-<script>//<!-- Script disable/enable touch dragging for mobile -->
-  $(document).on('click', '.fa-hand-point-up', function(event) {
-    if($('.fa-hand-point-up').hasClass('disabled')) {
-      $(".calling, #new, #hide, #sortparent").sortable('enable');
-      $('.fa-hand-point-up').toggleClass('disabled');
-    } else {
-      $(".calling, #new, #hide, #sortparent").sortable('disable');
-      $('.fa-hand-point-up').toggleClass('disabled');
-    }
-    event.preventDefault(event);
-});
-</script>
-
-<script>//<!-- Script to toggle time in calling -->
-  $(document).on('click', '.fa-clock', function(event) {
-    $( "ul#ward" ).toggleClass( "time" );
-    event.preventDefault(event);
-});
-</script>
-
-<script><!-- Script to load Demo data -->
-    $(document).on('click', '.demo-button, .demo', function(event) {
-    
-  // Show loading
-  $('div#loading').show();
-  
-    var errors = '';
-    $.ajax({
-        url : "https://callingmanager.com/load.php?req=ward",
-        method: "GET",
-        dataType: "text",
-        success : function (formcontent) {
-	    $.ajax({
-	        url : "https://callingmanager.com/load.php?req=stake",
-	        method: "GET",
-	        dataType: "text",
-	        success : function (formcontent_stake) {
-
-			// Report errors if any
-			if(errors === '') {
-				// Things look good, return data to screen
-												
-				// #### Get WARD callings returned as array ####
-				if(formcontent === '') { errors = 'No valid content to process'; }
-				
-				// ### Parse callings and display to screen ###
-				if(errors === '') {
-					parseCallings(formcontent, formcontent_stake);
-				} else {
-					// There are errors, return them to screen.
-					alert(errors);
-				}
-				
-			} else {
-				// There are errors, return them to screen.
-				alert(errors);
-			}
-	        }
-	    });
-	}
-    });
-    event.preventDefault(event);
-});
-</script>
-
-<script>//<!-- Display site wide message -->
-$(document).ready(function() {
-	bootbox.alert({
-		title: 'Notice:',
-		message: 'In April 2026 an update was made to LCR which changed the way calling data is presented. This change broke the links used to import calling data into this tool.<br> If you happen to be a developer and have an interest in assisting, please see <a href="https://tech.churchofjesuschrist.org/forum/viewtopic.php?t=21315&start=20#p262498" target="_blank">this post on the Church Tech Forum</a>.<br>If this can be resolved, Calling Manager will be updated and ready for use again. <br><br>Sorry for any inconvienence',
-		size: 'large',
-		centerVertical: true,
-		closeButton: false 
-	});
-	
-});
-</script>
-
-
-	</body>
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/jquery-ui/jquery-ui.min.js"></script>
+	<script src="vendor/moment/moment.min.js"></script>
+	<script src="vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+	<script src="vendor/jquery-validate/jquery.validate.min.js"></script>
+	<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+	<script src="vendor/bootbox/bootbox.min.js"></script>
+	<script src="js/parse-callings.js"></script>
+	<script src="js/pipeline.js"></script>
+	<script src="js/crypto-file.js"></script>
+	<script src="js/sample-data.js"></script>
+	<script src="js/app.js"></script>
+</body>
 </html>
