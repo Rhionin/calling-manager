@@ -152,7 +152,7 @@
     var classes = 'member' + (opts.serving ? ' in-calling-' + opts.serving : '') + (opts.userAdded ? ' user-added-member' : '');
     return '<ul class="' + classes + '" data-member-id="' + escapeHtml(id) + '" tabindex="0">' +
       '<i class="fa-solid fa-chevron-down" title="More info"></i>' +
-      '<li class="name">' + escapeHtml(opts.name) + '</li>' +
+      '<li class="name" title="Click to choose a calling for this person">' + escapeHtml(opts.name) + '</li>' +
       '<li class="current-calling">' + escapeHtml(opts.currentCalling || '') + '</li>' +
       '<li class="sustained">' + escapeHtml(opts.sustained || '') + '</li>' +
       '<li class="setapart">' + escapeHtml(opts.setApart || '') + '</li>' +
@@ -381,13 +381,16 @@
   }
 
   function arm($member) {
+    if (armedMember && armedMember.length) armedMember.removeClass('is-selected');
     armedMember = $member;
+    $member.addClass('is-selected');
     $('body').addClass('is-armed');
     $('#armed-name').text($member.children('li.name').first().text().trim());
     if ($('#assign-modal').is('[hidden]')) $('#armed-banner').removeAttr('hidden');
   }
 
   function disarm() {
+    if (armedMember && armedMember.length) armedMember.removeClass('is-selected');
     armedMember = null;
     $('body').removeClass('is-armed');
     $('#armed-banner').attr('hidden', 'hidden');
@@ -1179,6 +1182,16 @@
       event.preventDefault();
       event.stopPropagation();
       openPeoplePicker($(this).closest('li.calling'));
+    });
+    $(document).on('click', '.member > li.name', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var $member = $(this).closest('ul.member');
+      if (armedMember && armedMember[0] === $member[0]) {
+        disarm();
+        return;
+      }
+      arm($member);
     });
     $(document).on('click', 'li.calling > span.calling-name', function (event) {
       var $calling = $(this).closest('li.calling');

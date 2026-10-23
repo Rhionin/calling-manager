@@ -25,9 +25,10 @@ After the page has loaded, you can disconnect from the network and keep working.
 2. Load the fictional sample, or paste JSON for your unit and choose **Build the board**. The text box is cleared after a successful build.
 3. People without a calling sit in the **Unassigned** panel. It stays on screen while you scroll, and it can be collapsed.
 4. To assign someone without dragging:
-   - Choose **Assign** on the person, search for the calling, and press Enter.
+   - Click the person's name. A banner at the bottom confirms who you are placing. Then click the calling.
+   - Or choose **Assign** on the person, search for the calling, and press Enter.
    - Or choose **Place** (or the calling name) and pick a person. Vacant callings are listed first.
-   - Or choose **Assign**, close the search, and click the calling. Esc cancels.
+   - Esc, or clicking the same name again, cancels a placement.
 5. Dragging still works. Moving the pointer near the top or bottom edge of the window scrolls the page. **Lock drag** leaves the cards in place so a touch screen can scroll.
 6. **Find** narrows the board. Press `/` to focus it, then Enter to jump to the first match.
 7. **List** is a compact table of the same board. Status changes there are the same records as on the board.
@@ -85,4 +86,5 @@ See `vendor/NOTICES.md`. Font license texts are in `vendor/fonts/`.
 - The March 2026 LCR change means the one-click report link from the original site no longer returns JSON. You need another way to copy organization JSON into the box.
 - Bootbox 5 is included because the original page loaded it. Its alerts depended on Bootstrap's old jQuery modal plugin, which Bootstrap 5 removed, so the dialogs in this copy are the page's own.
 - Drag-and-drop auto-scroll depends on the browser delivering pointer events during a drag. Assign and Place do not.
+- Autosave in this browser is not encrypted. Anyone who can open this browser profile can read the board. The passphrase option encrypts only the exported file.
 - Opening the file directly (`file://`) can block IndexedDB, localStorage, or WebCrypto in some browsers. Use localhost or GitHub Pages when you want autosave and encryption, and keep an export either way.

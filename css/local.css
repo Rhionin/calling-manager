@@ -146,6 +146,8 @@ li.calling > .place-here {
 	z-index: 2;
 }
 body.is-armed li.calling { outline: 2px dashed #1458b8; cursor: copy; }
+ul.member > li.name { cursor: pointer; }
+ul.member.is-selected { outline: 2px solid #f4c542; outline-offset: 2px; }
 body.is-finding li.calling.find-miss { opacity: .28; }
 li.calling.find-hit { outline: 2px solid #0b6b2a; }
 
