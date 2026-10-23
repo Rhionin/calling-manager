@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>LDS Callings Manager</title>
+		
+		<meta name="viewport" content="width=device-width">
+		<meta content="LDS Callings Manager is a web based system for visualizing callings within a ward." name="description">
+		<meta content="Justin Sirois" name="author">
+		<!-- CSS styles -->
+		<link href="style.min.css" media="screen" rel="stylesheet" type='text/css'>
+		<link href="print.min.css" media="print" rel="stylesheet" type='text/css' id="printChangesCSS" />
+		<link href="print-all.min.css" media="print" rel="stylesheet" type='text/css' id="printAllCSS" disabled />
+		<link href='https://fonts.googleapis.com/css?family=Lato:400,400italic,700,900' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+		
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]> <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+		
+		<!-- Le fav and touch icons -->
+		<link rel="apple-touch-icon" sizes="57x57" href="https://callingmanager.com/images/favicon/apple-touch-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="https://callingmanager.com/images/favicon/apple-touch-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="https://callingmanager.com/images/favicon/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="https://callingmanager.com/images/favicon/apple-touch-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="https://callingmanager.com/images/favicon/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="https://callingmanager.com/images/favicon/apple-touch-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="https://callingmanager.com/images/favicon/apple-touch-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="https://callingmanager.com/images/favicon/apple-touch-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="https://callingmanager.com/images/favicon/apple-touch-icon-180x180.png">
+		<link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png" sizes="192x192">
+		<link rel="icon" type="image/png" href="images/favicon/favicon-96x96.png" sizes="96x96">
+		<link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
+		<link rel="manifest" href="images/favicon/manifest.json">
+		<link rel="shortcut icon" href="images/favicon/favicon.ico">
+		<meta name="msapplication-TileColor" content="#2d89ef">
+		<meta name="msapplication-TileImage" content="https://callingmanager.com/images/favicon/mstile-144x144.png">
+		<meta name="msapplication-config" content="https://callingmanager.com/images/favicon/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		
+		<!-- JS, jQuery, and other scripts -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- parse and manipulate dates for time serving in calling calculations -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- enable touch on mobile devices -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js" integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	</head>
+	<body>
+		<div id="loading"><img src="images/home/spinner.gif" /><br />Loading...</div>
+		<div class="background-image"></div>
+		<div class="top-section">
+			<h1>LDS Calling Manager<span id="changesAsOf">Changes as of: <span id="dateOfChanges"></span></span></h1>
+			<div id="menu-form" class="menu">
+				<a class="demo" href="index.html#">launch demo</a>
+				</div>
+			<div id="menu-callings" class="menu">
+				<a href="index.html#" title="Add a member"><i class="fa fa-user-plus"></i></a>
+				<a href="index.html#" title="Time-in-calling"><i class="fa-regular fa-clock"></i></a>
+				<div title="Print"><a href="index.html#"><i class="fa fa-print"></i></a></div>
+					<div id="printMenu"><a href="index.html#" id="print-changes">Print Changes</a><a href="index.html#" id="print-all">Print All Callings</a></div>
+				<a href="index.html#" class="touch"><i class="fa-regular fa-hand-point-up"></i></a>
+			</div>
+		</div>
+		<div id="container">
+			<div id="form-page">
+				<div id="form">
+				    					<h2>Two ways to use CallingManager.com</h2>
+					<div class="left">
+						<h3>1. Load demo calling data</h3>
+						<p>If you don't have access to Leader and Clerk Resources or just want to kick the tires, try the demo below.</p>
+						<a class="button demo-button" href="index.html#"><i class="fa fa-sign-in"></i>Launch Demo</a>
+					</div>
+				    					<div class="right">
+						<h3>2. Copy and paste from ChurchOfJesusChrist.org</h3>
+						<ol>
+							<li>First, <a href="https://lcr.churchofjesuschrist.org" target="_blank">log into LCR as you normally would</a>.</li>
+							<li>Click <a href="https://lcr.churchofjesuschrist.org/api/orgs/sub-orgs-with-callings?ip=true&lang=eng" target="_blank">this link</a> to display LCR calling data.</li>
+							<li>Copy all the text on the page ("CTRL A" to select all, then "CTRL C" to copy)</li>
+							<li>Paste into the first box below ("CTRL V" to paste)</li>
+							<li>You can optionally repeat for "Out of Unit Callings".
+								<ul>
+									<li>Visit <a href="https://lcr.churchofjesuschrist.org/api/orgs/out-of-unit-callings?includeTypes=LIVING_INSIDE&lang=eng" target="_blank">the "Out of Unit Callings" page.</a></li>
+									<li>Select all the text that appears and paste it into the 2nd box below.</li>
+								</ul>
+							</li>
+							<li>Then submit the form to continue</li>
+						</ol>
+					</div>
+					<div class="bottom">
+						<form action="https://callingmanager.com/callings.php" id="callings-by-org-form" method="post">
+							<div>
+								<label for="input-callings-by-org">Callings by Organization</label><br />
+								<textarea name="input-callings-by-org" id="input-callings-by-org" form="callings-by-org-form" class="required" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea><br />
+							</div>
+							<div>
+								<label for="input-out-of-unit-callings"><s>Out of Unit Callings</s> <span class="optional">(optional)</span>  <br/><span class="optional">Due to a recent change in how the Church presents out-of-unit callings, this feature is not currently working.</span></label><br />
+								<textarea name="input-out-of-unit-callings" id="input-out-of-unit-callings" form="callings-by-org-form" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea><br />
+							</div>
+							<a href="index.html#" class="button submit" style="width: 40%; clear: both;">Submit</a>
+							<a href="index.html#" class="note"><em>wait... is this okay to do?</em></a>
+							<!--<span class="note">Note: If you are part of the Leader and Clerk Resources Beta, CallingManager.com does not currently support LCR 3.0 Beta.  It will be updated when calling management functionality roll out to all units. You may still view the <a href="//demo.callingmanager.com">demo</a>.</span>-->
+							
+													</form>
+					</div>
+				</div>			
+			</div>
+			
+			<!-- BEGIN CALLING PAGE -->
+			<div id="callings-page" class="aftersubmit">
+				<ul id="sortparent" class="organization"></ul>
+				<ul id="new" class="organization">
+					<li class="h2 notSortable"><h2>New / Names To Consider</h2></li>
+				</ul>
+				<ul id="ward">
+					<!-- INSERT PARSED CALLINGS HERE -->
+				
+					<ul id="hide" class="organization" style='clear: both;'>
+						<li class="h2 notSortable"><h2>Hide</h2></li>
+					</ul>
+				</ul>
+							</div>
+			
+	
+			<!-- BEGIN PAGE FOOTER -->
+			<p class="footer">
+				Not an official website of <a target="_blank" href="https://churchofjesuschrist.org">The Church of Jesus Christ of Latter-day Saints</a>.<br />
+			</p>
+			<!--googleoff: all-->
+			<iframe class="footer" allowTransparency="true" src="copyright.php.html" scrolling="no"></iframe>
+			<!--googleon: all-->
+			<br />
+			<div class="infobox">
+				<span class="close" href="#">&#10006;</span>
+				<h2>Is it safe to use this site?</h2>
+								<p><strong>Great question!  Church policy is <a target="_blank" href="https://www.churchofjesuschrist.org/help/support/policies/general-policies/use-of-online-resources-in-church-callings?lang=eng">very</a> <a target="_blank" href="https://www.churchofjesuschrist.org/help/support/meetinghouse-technology/my-calling-as-a-technology-specialist/technology-standards?lang=eng">clear</a> that membership data should <em>NOT</em> be sent to third-party servers, websites or cloud-based service providers.</strong></p>
+				<p class="question">Q. But aren't I submitting data to CallingManager.com?</p>
+				<p class="answer">A. While it may seem like it, the answer is <em>NO</em>.  CallingManager.com loads an application in your web browser, but all the information you enter and the work you do with that data takes place on your local computer&mdash;similar to using a spreadsheet program or other desktop software. To get a bit more technical, this page uses client side javascript code to accept, parse, and output everything. No communication with the server is necessary beyond the initial page load.</p>
+				<p class="question">Q. I'm still not sure... can you prove it?</p>
+				<p class="answer">A. Of course! Not only is all the code used to manage callings open source (you can look at all the nuts and bolts yourself if you like), there is a nice and simple way to put your mind at ease.  After loading this page, feel free to disconnect from wifi or unplug your internet connection. Then input your calling data and work off-line.  When you are done and have printed your changes close the browser and reconnect to the internet.</p>
+				
+				<a class="close button" href="index.html#">close</a>
+			</div>
+		</div>
+
+<script>//<!-- Script to close info box -->
+  $(document).on('click', 'div.infobox .close', function(event) {
+    $('div.infobox').toggleClass('open');
+    event.preventDefault(event);
+});
+</script>
+
+<script>//<!-- Script to close info box -->
+  $(document).on('click', 'a.note', function(event) {
+    $('div.infobox').toggleClass('open');
+    event.preventDefault(event);
+});
+</script>
+
+<script>//<!-- Form Submit button -->
+  $(document).on('click', 'form#callings-by-org-form a.submit', function(event) {
+	event.preventDefault(event);
+	if($("form#callings-by-org-form").valid()){   // test for validity
+	
+		// Show loading
+		$('div#loading').show();
+		
+		
+		setTimeout(function(){
+			// Gather submitted form content
+			var formcontent = $('textarea#input-callings-by-org').val();
+			var formcontent_stake = $('textarea#input-out-of-unit-callings').val();
+			
+			// Send to be parsed
+			parseCallings(formcontent, formcontent_stake);
+		}, 0);
+	}
+  });
+</script>
+
+<script>//<!-- Function to parse callings -->
+function parseCallings(formcontent, formcontent_stake) {
+
+		var errors = '';
+		
+		// Prep ward variables
+		var jsonData = jQuery.parseJSON(formcontent);
+		//console.log("Ward Callings"); // use the console for debugging
+		//console.log( jsonData ); // use the console for debugging
+		var callingsHTML = '';
+		
+		if(formcontent === '') { errors += 'No valid content to process\n'; }
+		
+		// Prep stake variables
+		if(formcontent_stake !== '') {
+			var jsonData_stake = jQuery.parseJSON(formcontent_stake);
+			//console.log("Stake Callings"); // use the console for debugging
+			//console.log( jsonData_stake ); // use the console for debugging
+		}
+		
+		
+	//<!-- Parse json calling data -->
+	$.each(jsonData, function() {
+		callingsHTML += '<ul id="' + (this.defaultOrgName.replace(/ /g, '-')).toLowerCase() + '" class="organization">\n';
+		callingsHTML += '	<li class="h2 notSortable"><h2>' + this.defaultOrgName + '</h2><a href="index.html#" title="Add calling"><i class="fa-regular fa-square-plus"></i></a></li>\n';
+		
+		if(this.children.length > 0) {
+			$.each(this.children, function() {
+				// Add sub-organization
+				callingsHTML += '<ul id="' + (this.defaultOrgName.replace(/ /g, '-')).toLowerCase() + '" class="organization">\n';
+				callingsHTML += '	<li class="h2 notSortable"><h2>' + this.defaultOrgName + '</h2><a href="index.html#" title="Add calling"><i class="fa-regular fa-square-plus"></i></a></li>\n';
+				$.each(this.callings, function() {
+					callingsHTML += buildCalling(this); // Add to callings
+				});
+				callingsHTML += '</ul>';
+				
+				$.each(this.children, function() {
+					// Add sub-sub-organization
+					callingsHTML += '<ul id="' + (this.defaultOrgName.replace(/ /g, '-')).toLowerCase() + '" class="organization">\n';
+					callingsHTML += '	<li class="h2 notSortable"><h2>' + this.defaultOrgName + '</h2><a href="index.html#" title="Add calling"><i class="fa-regular fa-square-plus"></i></a></li>\n';
+					$.each(this.callings, function() {
+						callingsHTML += buildCalling(this); // Add to callings
+					});
+					callingsHTML += '</ul>';
+				});
+			});
+		}
+		
+		$.each(this.callings, function() {
+			callingsHTML += buildCalling(this); // Add to callings
+		});
+		
+		callingsHTML += '</ul>';
+	});
+	
+	
+	// Send callingsHTML to #ward
+	$("ul#ward").prepend(callingsHTML);
+	
+	
+
+		// Report errors if any
+		if(errors === '') {
+			// Things look good, return data to screen
+									
+			// Hide Form and Show Callings
+			$('div.infobox').toggleClass('aftersubmit');
+			$('div.menu').toggleClass('aftersubmit');
+			$('div#form-page').toggleClass('aftersubmit');
+			$('div#callings-page').toggleClass('aftersubmit');
+			
+		} else {
+			// There are errors, return them to screen.
+			alert(errors);
+		}
+	// Ensure that individuals in callings can be dragged into new callings.
+	refreshSortable();
+	$('div#loading').hide();
+  };
+</script>
+		
+		
+<!--
+		
+		// Now it's time to work with Stake (out-of-unit) data if any
+		var formcontent_stake = $('textarea#input-out-of-unit-callings').val().replace(/[^a-zA-Z0-9-_., |()'\t\n]/g, '');
+		if(formcontent_stake !== '') {
+			// Yes there is stake info, process it now.
+			if((formcontent_stake.indexOf('Out-of-Unit Callings  Print') <= -1) && (formcontent_stake.indexOf('Out-of-Unit Callings   Print  ') <= -1) && (formcontent_stake.indexOf('Out-of-Unit Callings\nPrint') <= -1)) { errors += 'Could not find stake callings.\n'; } // If string does not contains our starting phrase throw error (Chrome && IE && FireFox)
+			formcontent_stake = formcontent_stake.substring(formcontent_stake.indexOf('Out-of-Unit Callings  Print')); // Delete everything before this line of text (Chrome)
+			formcontent_stake = formcontent_stake.substring(formcontent_stake.indexOf('Out-of-Unit Callings   Print')); // Delete everything before this line of text (IE)
+			formcontent_stake = formcontent_stake.substring(formcontent_stake.indexOf('Out-of-Unit Callings\nPrint')); // Delete everything before this line of text (FireFox)
+			formcontent_stake = formcontent_stake.replace(/\n +/g, '\n'); // (FF) Remove spaces at beginning of lines (helps match FireFox text to Chrome)
+			formcontent_stake = formcontent_stake.replace(/ +\n/g, '\n'); // (IE) Remove spaces at end of lines (helps match IE text to Chrome)
+			formcontent_stake = formcontent_stake.replace(/ \t/g, '\t'); // (FF) Remove space when its followed by a tab (helps match Firefox text to Chrome)
+			formcontent_stake = formcontent_stake.replace(/  /g, '\t'); // (IE) Replace double spaces with a tab (helps match IE to Chrome)
+			formcontent_stake = formcontent_stake.replace(/\t /g, '\t\t'); // (IE) Replace space after a tab with a tab (helps match IE text to Chrome)
+			formcontent_stake = formcontent_stake.replace(/[\n]+/g, '\n'); // Remove multiple empty lines
+			if(formcontent_stake.indexOf('\nCount ') <= -1) { errors += 'Could not find end of stake callings.\n'; } // If string does not contains our ending phrase throw error
+			formcontent_stake = formcontent_stake.substring(0, formcontent_stake.indexOf('\nCount ')); // Delete everything after this line of text (this doesn't allow for out of Stake callings, but those should be rare)
+			formcontent_stake = formcontent_stake.replace(/ \n\t/g, '\n'); // Custom callings begin with an extra tab, remove those to match other callings
+			formcontent_stake = $.trim(formcontent_stake); // Get rid of any empty spaces or linese at the end
+					
+			text_to_remove = [
+				"Out-of-Unit Callings	Print\n", // Remove 'Out of Unit Callings' from first line (Chrome)
+				"Out-of-Unit Callings		Print\n", // Remove 'Out of Unit Callings' from first line (IE)
+				"Out-of-Unit Callings\nPrint\n", // Remove 'Out of Unit Callings' from first line (FireFox)
+				"Stake Callings\n", // Remove ' View Organization' from calling after calling catagories
+				"CALLING	NAME	SUSTAINED\n", // for Chrome
+				"Calling	Name	Sustained\n", // for FireFox
+				"Calling\nName\nSustained\n", // for IE
+				"CALLING	NAME\n", // for Mobile Safari and Chrome
+			];
+			formcontent_stake = formcontent_stake.replace(new RegExp("\\b(" + text_to_remove.join("|") + ")\\b", "g"), ""); // execute removal of the above text
+			formcontent_stake = formcontent_stake.replace(/\t/g, '|'); // LAST step - replace tabs with pipes
+			
+			// Check our work
+			if(formcontent_stake === '') {
+				// Something isn't looking right.  Throw an error
+				errors += 'Sorry, could not extract stake calling data.\n';
+			}
+		}
+-->
+		
+
+
+
+
+<script>//<!-- Function to build a single calling -->
+function buildCalling(calling) {
+
+	var callingHTML = '';
+	var status = '';
+	
+	if(calling.memberName != 'null') { status = 'occupied'; } else { status = 'not-occupied'; }
+	callingHTML += '	<li class="calling ' + status + '">\n';
+	callingHTML += '		<span class="calling-name">' + calling.position + '</span>\n';
+	if(calling.memberName != null) { // if no one is in the current calling, don't add a member in it.
+		var serving = 0;
+		if(calling.activeDate != '') { // Determine how many months serving
+			var date1 = moment(calling.activeDate, "YYYYMMDD");
+			var date2 = moment();
+			var verboseDate = moment(date1).format("YYYY MMM DD");
+			var totalmonths = moment(date2).diff(moment(date1), 'months', true);
+			if(totalmonths >= 72)     { serving = 72; }
+			else if(totalmonths >= 66) { serving = 66; }
+			else if(totalmonths >= 60) { serving = 60; }
+			else if(totalmonths >= 54) { serving = 54; }
+			else if(totalmonths >= 48) { serving = 48; }
+			else if(totalmonths >= 42) { serving = 42; }
+			else if(totalmonths >= 36) { serving = 36; }
+			else if(totalmonths >= 30) { serving = 30; }
+			else if(totalmonths >= 24) { serving = 24; }
+			else if(totalmonths >= 18) { serving = 18; }
+			else if(totalmonths >= 12) { serving = 12; }
+			else if(totalmonths >= 6)  { serving = 6; }
+		}
+		callingHTML += '		<ul class="member in-calling-' + serving + '">\n';
+		callingHTML += '			<i class="fa fa-chevron-down" title="More info"></i>\n';
+		callingHTML += '			<li class="name">' + calling.memberName + '</li>\n';
+		callingHTML += '			<li class="current-calling">' + calling.position + '</li>\n';
+		callingHTML += '			<li class="sustained">' + verboseDate + '</li>\n';
+		callingHTML += '			<li class="setapart">' + calling.setApart + '</li>\n';
+		callingHTML += '			<i class="fa fa-files-o"></i>\n';
+		callingHTML += '			<span class="close" title="Delete member">&#10006;</span>\n';
+		callingHTML += '		</ul>\n\n';
+
+	}
+	callingHTML += '	</li>\n';
+	
+	return callingHTML;
+};
+</script>
+
+<script>//<!-- Script to display parsed callings on screen -->
+  function displayCallingsOnScreen() {
+    
+  };
+</script>
+
+<script>//<!-- Form validation -->
+$(document).ready(function() {
+	$("#callings-by-org-form").validate();
+});
+</script>
+
+<script>//<!-- Add current date to printout -->
+$(document).ready(function() {
+	var date = moment();
+	var currentDate = date.format('MMMM Do YYYY');
+	$("#dateOfChanges").text(currentDate);
+});
+</script>
+
+<script>//<!-- Script to allow show more member info button -->
+  $(document).on('click', '.member > i.fa-chevron-down', function(event) {
+    $(this).parent().toggleClass('show');
+    event.preventDefault(event);
+});
+</script>
+
+<script>//<!-- Script to allow duplicating member -->
+  $(document).on('click', '.member > i.fa-files-o', function(event) {
+    var $toclone = $(this).parent();
+    var $parent = $(this).parent().parent();
+    $toclone.clone( true ).appendTo($parent);
+    event.preventDefault(event);
+});
+</script>
+
+<script>//<!-- Script to delete member -->
+  $(document).on('click', 'ul.member > span.close', function(event) {
+    var todelete = $(this).parent();
+    var calling = todelete.parent();
+    todelete.addClass('deleted');
+    todelete.detach();
+    $('#new').append(todelete);
+    calling.checkCallingChange();
+    event.preventDefault(event);
+});
+</script>
+
+<script>//<!-- Script to allow sorting of .members in .callings, and additional .callings in .organization -->
+  function refreshSortable() {
+    var oldParent = null;
+    $( ".calling, #new, #hide, #sortparent" ).sortable({
+      items: ".member:not(span.calling-name)",
+      cancel: ".notSortable",
+      connectWith: ".calling, #new, #hide",
+      cursor: "move",
+      containment: "#container",
+      start: function(evt, ui) {
+        oldParent = $(ui.item).parent();
+        var element = ui.item.detach();
+        $('ul#sortparent').append(element);
+      },
+      stop: function(event, ui) {
+        ui.item.parent().checkCallingChange();
+        oldParent.checkCallingChange();
+      }
+    }).disableSelection();
+  }
+  refreshSortable();
+</script>
+
+<script>//<!-- Function to check if a calling box should be marked .changed or not -->
+  $.fn.checkCallingChange = function() {
+    var calling = $(this);
+    
+    var parentCalling = $(this).children("span.calling-name").text();
+    var childrenCallings = $(this).find("li.current-calling").text();
+    
+    if (($(this).find("ul.member").hasClass("user-added-member"))) { // This .calling is now filled with a user-created member
+      $(this).addClass("changed");
+    }
+    else if ((childrenCallings === '') && ($(this).hasClass("not-occupied"))) { // This .calling is empty and was originally empty.  mark it NOT .changed
+      $(this).removeClass("changed");
+    }
+    else if(parentCalling == childrenCallings) { // parent and child match exactly.  mark it NOT .changed
+      $(this).removeClass("changed");
+    }
+    else if(parentCalling !== childrenCallings) { // parent and child callings do not match.  mark it .changed
+      $(this).addClass("changed");
+    }
+  };
+</script>
+
+<script>//<!-- Script to create new calling box -->
+  $(document).on('click', '.organization .fa-square-plus', function(e) { // This method works best on html that has been dynamically generated
+    var itemToAddTo = $(this).parent().parent().parent();
+    var newCalling;
+    var name=prompt("Name of new calling","New Calling").replace(/[^a-zA-Z ,._\/()'0-9-]+/g, '');
+    if (name!==null){
+      newCalling="<li class='calling user-added-calling'><span class='calling-name'>" + name + "</span></li>";
+      $(itemToAddTo).append(newCalling);
+      refreshSortable();
+    }
+    e.preventDefault(e);
+  });
+</script>
+
+<script>//<!-- Script to create new member box -->
+  $(document).on('click', '.fa-user-plus', function(event) {
+    var itemToAddTo = $('#new');
+    var newMember;
+    var name=prompt("Name of member","Lastname, Firstname").replace(/[^a-zA-Z ,._\/()'0-9-]+/g, '');
+    itemToAddTo.css({"display": "block"});
+    if (name!==null){
+      newMember="<ul class='member user-added-member'><li class='name'>" + name + "</li><li class='current-calling'></li><li class='sustained'></li><span title='Delete member' class='close'>&#10006;</span></ul>";
+      $(itemToAddTo).append(newMember);
+      refreshSortable();
+    }
+    $("html, body").animate({ scrollTop: 0 }, "medium"); // Scroll window to top so we can see new user
+    event.preventDefault(event);
+});
+</script>
+
+<script>//<!-- Script to print -->
+  $('#printMenu').mouseleave(function() {
+     $('#printMenu').slideUp();
+});
+  $(document).on('click', '.fa-print', function(event) {
+     $('#printMenu').slideToggle();
+     event.preventDefault(event);
+});
+
+<!-- Script to print changes -->
+  $(document).on('click', 'a#print-changes', function(event) {
+    $("#printChangesCSS").prop('disabled', '');
+    $("#printAllCSS").prop('disabled', 'disabled');
+    setTimeout(
+    function() 
+    {
+      window.print();
+    }, 150);
+    event.preventDefault(event);
+});
+<!-- Script to print all -->
+  $(document).on('click', 'a#print-all', function(event) {
+    $("#printAllCSS").prop('disabled', '');
+    $("#printChangesCSS").prop('disabled', 'disabled');
+    setTimeout(
+    function() 
+    {
+      window.print();
+    }, 150);
+    event.preventDefault(event);
+});
+
+
+<!-- Preload the print all style sheet -->
+$(function() {
+    $("#printAllCSS").prop('disabled', '');
+    $("#printChangesCSS").prop('disabled', 'disabled');
+    setTimeout(
+    function() 
+    {
+        $("#printChangesCSS").prop('disabled', '');
+        $("#printAllCSS").prop('disabled', 'disabled');
+    }, 1500);
+});
+</script>
+
+<script>//<!-- Script disable/enable touch dragging for mobile -->
+  $(document).on('click', '.fa-hand-point-up', function(event) {
+    if($('.fa-hand-point-up').hasClass('disabled')) {
+      $(".calling, #new, #hide, #sortparent").sortable('enable');
+      $('.fa-hand-point-up').toggleClass('disabled');
+    } else {
+      $(".calling, #new, #hide, #sortparent").sortable('disable');
+      $('.fa-hand-point-up').toggleClass('disabled');
+    }
+    event.preventDefault(event);
+});
+</script>
+
+<script>//<!-- Script to toggle time in calling -->
+  $(document).on('click', '.fa-clock', function(event) {
+    $( "ul#ward" ).toggleClass( "time" );
+    event.preventDefault(event);
+});
+</script>
+
+<script><!-- Script to load Demo data -->
+    $(document).on('click', '.demo-button, .demo', function(event) {
+    
+  // Show loading
+  $('div#loading').show();
+  
+    var errors = '';
+    $.ajax({
+        url : "https://callingmanager.com/load.php?req=ward",
+        method: "GET",
+        dataType: "text",
+        success : function (formcontent) {
+	    $.ajax({
+	        url : "https://callingmanager.com/load.php?req=stake",
+	        method: "GET",
+	        dataType: "text",
+	        success : function (formcontent_stake) {
+
+			// Report errors if any
+			if(errors === '') {
+				// Things look good, return data to screen
+												
+				// #### Get WARD callings returned as array ####
+				if(formcontent === '') { errors = 'No valid content to process'; }
+				
+				// ### Parse callings and display to screen ###
+				if(errors === '') {
+					parseCallings(formcontent, formcontent_stake);
+				} else {
+					// There are errors, return them to screen.
+					alert(errors);
+				}
+				
+			} else {
+				// There are errors, return them to screen.
+				alert(errors);
+			}
+	        }
+	    });
+	}
+    });
+    event.preventDefault(event);
+});
+</script>
+
+<script>//<!-- Display site wide message -->
+$(document).ready(function() {
+	bootbox.alert({
+		title: 'Notice:',
+		message: 'In April 2026 an update was made to LCR which changed the way calling data is presented. This change broke the links used to import calling data into this tool.<br> If you happen to be a developer and have an interest in assisting, please see <a href="https://tech.churchofjesuschrist.org/forum/viewtopic.php?t=21315&start=20#p262498" target="_blank">this post on the Church Tech Forum</a>.<br>If this can be resolved, Calling Manager will be updated and ready for use again. <br><br>Sorry for any inconvienence',
+		size: 'large',
+		centerVertical: true,
+		closeButton: false 
+	});
+	
+});
+</script>
+
+
+	</body>
+</html>
